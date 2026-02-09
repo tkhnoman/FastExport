@@ -26,7 +26,7 @@ class FAST_EXPORT(Extension):
         if doc is None:
             QMessageBox.information(app.activeWindow().qwindow(), "Error", "No active document found.")
         else:
-            path = Application.readSetting("fastExport", "directory", "")
+            path = app.readSetting("fastExport", "directory", "")
     
             if not os.path.exists(path):
                 path = None
@@ -41,62 +41,62 @@ class FAST_EXPORT(Extension):
             path = QFileDialog.getSaveFileName(None, "Select export target", file_name_check, "*.png", "",QFileDialog.DontConfirmOverwrite | QFileDialog.DontResolveSymlinks)[0]
             
             if path:
-                export_parameters = InfoObject()
+                exportParam = InfoObject()
 
-                compression = Application.readSetting("fastExport", "compression", "")
+                compression = app.readSetting("fastExport", "compression", "")
                 if compression:                
-                    export_parameters.setProperty("compression", int(compression)) 
+                    exportParam.setProperty("compression", int(compression)) 
                 else:
-                    export_parameters.setProperty("compression", 5)
+                    exportParam.setProperty("compression", 5)
                 
-                alpha = Application.readSetting("fastExport", "alpha", "")
+                alpha = app.readSetting("fastExport", "alpha", "")
                 if alpha:
-                    export_parameters.setProperty("alpha", alpha == 'True')
+                    exportParam.setProperty("alpha", alpha == 'True')
                 else:
-                    export_parameters.setProperty("alpha", True)
+                    exportParam.setProperty("alpha", True)
                     
-                indexed = Application.readSetting("fastExport", "indexed", "")
+                indexed = app.readSetting("fastExport", "indexed", "")
                 if indexed:
-                    export_parameters.setProperty("indexed", indexed == 'True')
+                    exportParam.setProperty("indexed", indexed == 'True')
                 else:
-                    export_parameters.setProperty("indexed", False)
+                    exportParam.setProperty("indexed", False)
                     
-                interlaced = Application.readSetting("fastExport", "interlaced", "")
-                if indexed:
-                    export_parameters.setProperty("interlaced", interlaced == 'True')
+                interlaced = app.readSetting("fastExport", "interlaced", "")
+                if interlaced:
+                    exportParam.setProperty("interlaced", interlaced == 'True')
                 else:
-                    export_parameters.setProperty("interlaced", False)
+                    exportParam.setProperty("interlaced", False)
                     
-                forceSRGB = Application.readSetting("fastExport", "forceSRGB", "")
+                forceSRGB = app.readSetting("fastExport", "forceSRGB", "")
                 if forceSRGB:
-                    export_parameters.setProperty("forceSRGB", forceSRGB == 'True')
+                    exportParam.setProperty("forceSRGB", forceSRGB == 'True')
                 else:
-                    export_parameters.setProperty("forceSRGB", True)
+                    exportParam.setProperty("forceSRGB", True)
                     
-                saveSRGBProfile = Application.readSetting("fastExport", "saveSRGBProfile", "")
+                saveSRGBProfile = app.readSetting("fastExport", "saveSRGBProfile", "")
                 if saveSRGBProfile:
-                    export_parameters.setProperty("saveSRGBProfile", saveSRGBProfile == 'True')
+                    exportParam.setProperty("saveSRGBProfile", saveSRGBProfile == 'True')
                 else:
-                    export_parameters.setProperty("saveSRGBProfile", False)
+                    exportParam.setProperty("saveSRGBProfile", False)
                     
-                transparencyFillcolor = Application.readSetting("fastExport", "transparencyFillcolor", "")
+                transparencyFillcolor = app.readSetting("fastExport", "transparencyFillcolor", "")
                 if transparencyFillcolor:
-                    export_parameters.setProperty("transparencyFillcolor", transparencyFillcolor)
+                    exportParam.setProperty("transparencyFillcolor", transparencyFillcolor)
             
             
-                success = doc.exportImage(path, export_parameters)
+                success = doc.exportImage(path, exportParam)
             
                 if success:
-                    Application.writeSetting("fastExport", "directory", os.path.dirname(path))
-                    Application.writeSetting("fastExport", "compression", str(export_parameters.property("compression")))
-                    Application.writeSetting("fastExport", "alpha", str(export_parameters.property("alpha")))
-                    Application.writeSetting("fastExport", "indexed", str(export_parameters.property("indexed")))
-                    Application.writeSetting("fastExport", "interlaced", str(export_parameters.property("interlaced")))
-                    Application.writeSetting("fastExport", "forceSRGB", str(export_parameters.property("forceSRGB")))
-                    Application.writeSetting("fastExport", "saveSRGBProfile", str(export_parameters.property("saveSRGBProfile")))
-                    Application.writeSetting("fastExport", "transparencyFillcolor", str(export_parameters.property("transparencyFillcolor")))
+                    app.writeSetting("fastExport", "directory", os.path.dirname(path))
+                    app.writeSetting("fastExport", "compression", str(exportParam.property("compression")))
+                    app.writeSetting("fastExport", "alpha", str(exportParam.property("alpha")))
+                    app.writeSetting("fastExport", "indexed", str(exportParam.property("indexed")))
+                    app.writeSetting("fastExport", "interlaced", str(exportParam.property("interlaced")))
+                    app.writeSetting("fastExport", "forceSRGB", str(exportParam.property("forceSRGB")))
+                    app.writeSetting("fastExport", "saveSRGBProfile", str(exportParam.property("saveSRGBProfile")))
+                    app.writeSetting("fastExport", "transparencyFillcolor", str(exportParam.property("transparencyFillcolor")))
 	
-                    # print( str(export_parameters.property("transparencyFillcolor")))
+                    # print( str(exportParam.property("transparencyFillcolor")))
                     # print( str(exportParam.property("transparencyFillcolor")))
 
 
