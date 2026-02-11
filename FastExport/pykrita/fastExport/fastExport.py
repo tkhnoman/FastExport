@@ -2,6 +2,7 @@ import os
 from krita import *
 from PyQt5.QtWidgets import QFileDialog, QListWidget, QInputDialog, QMessageBox, QLabel
 
+app = Krita.instance()
 
 class FAST_EXPORT(Extension):
     def __init__(self, parent):
@@ -10,17 +11,34 @@ class FAST_EXPORT(Extension):
     def setup(self):
         pass
     
+    def moveMenu(self):
+        qwindow = app.activeWindow().qwindow()
+        menu_bar = qwindow.menuBar()
+        file_menu_action = next(
+            (a for a in menu_bar.actions() if a.objectName() == "file"), None
+        )
+        
+        
+        if file_menu_action:
+            file_menu = file_menu_action.menu()
+            for file_action in file_menu.actions():
+                if file_action.objectName() == "file_export_advanced":
+                    file_menu.removeAction(self.exportAction)
+                    file_menu.insertAction(file_action, self.exportAction)
+                    break
+                    
     def createActions(self, window):
-        exportAction = window.createAction(
+        self.exportAction = window.createAction(
             "fastExport", "Fast Export"
         )
         
-        exportAction.triggered.connect(self.fastExport)
+        self.exportAction.triggered.connect(self.fastExport)
         
-
+        QTimer.singleShot(0, self.moveMenu)
+        
+        
     def fastExport(self):
         
-        app = Krita.instance()
         doc = app.activeDocument()
 
         if doc is None:
