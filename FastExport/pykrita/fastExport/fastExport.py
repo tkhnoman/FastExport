@@ -2,9 +2,9 @@ import os
 from krita import *
 from PyQt5.QtWidgets import QFileDialog, QListWidget, QInputDialog, QMessageBox, QLabel
 
-app = Krita.instance()
 
 class FAST_EXPORT(Extension):
+    
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -12,6 +12,7 @@ class FAST_EXPORT(Extension):
         pass
     
     def moveMenu(self):
+        app = Krita.instance()
         qwindow = app.activeWindow().qwindow()
         menu_bar = qwindow.menuBar()
         file_menu_action = next(
@@ -38,6 +39,7 @@ class FAST_EXPORT(Extension):
         
         
     def fastExport(self):
+        app = Krita.instance()
         
         doc = app.activeDocument()
 
@@ -120,4 +122,3 @@ class FAST_EXPORT(Extension):
 
 
 Krita.instance().addExtension(FAST_EXPORT(Krita.instance()))
-
