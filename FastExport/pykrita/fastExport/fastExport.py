@@ -22,7 +22,7 @@ class FAST_EXPORT(Extension):
         if file_menu_action:
             file_menu = file_menu_action.menu()
             for file_action in file_menu.actions():
-                if file_action.objectName() == "file_export_advanced":
+                if file_action.objectName() == "file_import_file":
                     file_menu.removeAction(self.exportAction)
                     file_menu.insertAction(file_action, self.exportAction)
                     break
@@ -120,3 +120,4 @@ class FAST_EXPORT(Extension):
 
 
 Krita.instance().addExtension(FAST_EXPORT(Krita.instance()))
+
